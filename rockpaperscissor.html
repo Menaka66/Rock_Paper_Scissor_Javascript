@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Rock Paper Scissors</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f8ff;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      margin-top: 20px;
+    }
+    .choices {
+      display: none;
+      margin: 20px;
+    }
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #result {
+      display: none;
+      font-size: 18px;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    #scoreboard {
+      display: none;
+      margin-top: 20px;
+      font-size: 18px;
+      background: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 240px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #play-again, #cancel-btn, #restart-btn {
+      display: none;
+    }
+    #cancel-btn {
+      background: red;
+      color: white;
+    }
+    #restart-btn {
+      background: green;
+      color: white;
+    }
+    #goodbye-message {
+      display: none;
+      margin-top: 30px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Rock Paper Scissors</h1>
+  <p id="intro-text">🎮 Ready for a battle of wits? Click Start to begin!</p>
+
+  <!-- Start screen -->
+  <div id="start-screen">
+    <button onclick="startGame()">🎮 Start Game</button>
+  </div>
+
+  <!-- Game buttons -->
+  <div class="choices" id="choices">
+    <button onclick="play('rock')"> Rock</button>
+    <button onclick="play('paper')"> Paper</button>
+    <button onclick="play('scissors')"> Scissors</button>
+  </div>
+
+  <!-- Result display -->
+  <div id="result"></div>
+
+  <!-- Scoreboard -->
+  <div id="scoreboard">
+    🧑 Player: <span id="player-score">0</span> | 🤖 Computer: <span id="computer-score">0</span>
+  </div>
+
+  <!-- Play again button -->
+  <button id="play-again" onclick="resetRound()">🔄 Play Another Round</button>
+
+  <!-- Cancel button on game page -->
+  <button id="cancel-btn" onclick="exitGame()"> Cancel Game</button>
+
+  <!-- Goodbye message -->
+  <div id="goodbye-message"> Game paused! Take a break and hit “Start Again” when you’re ready! 🎮</div>
+
+  <!-- Restart button after cancel -->
+  <button id="restart-btn" onclick="startGame()">🔁 Start Again</button>
+
+<script>
+  let playerScore = 0;
+  let computerScore = 0;
+
+  function startGame() {
+    document.getElementById("start-screen").style.display = "none";
+    document.getElementById("goodbye-message").style.display = "none";
+    document.getElementById("restart-btn").style.display = "none";
+    document.getElementById("choices").style.display = "block";
+    document.getElementById("scoreboard").style.display = "block";
+    document.getElementById("result").style.display = "block";
+    document.getElementById("cancel-btn").style.display = "inline-block";
+    document.getElementById("result").innerText = "🔥 Game is ON! Choose wisely…";
+  }
+
+  function exitGame() {
+    document.getElementById("choices").style.display = "none";
+    document.getElementById("scoreboard").style.display = "none";
+    document.getElementById("result").style.display = "none";
+    document.getElementById("play-again").style.display = "none";
+    document.getElementById("cancel-btn").style.display = "none";
+    document.getElementById("goodbye-message").style.display = "block";
+    document.getElementById("restart-btn").style.display = "inline-block";
+  }
+
+  function play(playerChoice) {
+    const choices = ['rock', 'paper', 'scissors'];
+    const computerChoice = choices[Math.floor(Math.random() * 3)];
+    let resultDiv = document.getElementById("result");
+
+    // 🔥 Improved Messages
+    if (playerChoice === computerChoice) {
+      resultDiv.innerText = `🤝 Tie! Both went with ${playerChoice.toUpperCase()} — great minds think alike!`;
+    } else if (
+      (playerChoice === 'rock' && computerChoice === 'scissors') ||
+      (playerChoice === 'paper' && computerChoice === 'rock') ||
+      (playerChoice === 'scissors' && computerChoice === 'paper')
+    ) {
+      resultDiv.innerText = `🔥 Victory! ${playerChoice.toUpperCase()} smashes ${computerChoice.toUpperCase()}! You’re unstoppable! 🎉`;
+      playerScore++;
+    } else {
+      resultDiv.innerText = `🤖 Oops! Computer choose ${computerChoice.toUpperCase()} and won this round. Stay sharp!`;
+      computerScore++;
+    }
+
+    // update scores
+    document.getElementById("player-score").innerText = playerScore;
+    document.getElementById("computer-score").innerText = computerScore;
+
+    // show play again button
+    document.getElementById("play-again").style.display = "inline-block";
+  }
+
+  function resetRound() {
+    document.getElementById("result").innerText = "✨ Another round begins — choose your move!";
+    document.getElementById("play-again").style.display = "none";
+  }
+</script>
+
+</body>
+</html>
